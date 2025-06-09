@@ -1,16 +1,22 @@
 FROM registry.fedoraproject.org/fedora-minimal:43
 
+# Install nodejs and deps
 RUN set -x \
-  && microdnf -y install nodejs-npm mediainfo
+  && microdnf -y install nodejs-npm mediainfo \
+  # Create workdir
+  && mkdir /flood
 
-ARG PACKAGE=flood
-ARG VERSION=4.9.5
+# Copy npm package spec
+COPY package*.json /flood
 
-# Get specified version from npm
-RUN npm i -g "${PACKAGE}"@"${VERSION}" &&\
-    node --version &&\
-    npm ls --global &&\
-    npm cache clean --force
+# Set workdir
+WORKDIR /flood
+
+# Install npm packages
+RUN node --version \
+    && npm install \
+    && npm ls \
+    && npm cache clean --force
 
 # Expose port 3000
 EXPOSE 3000
