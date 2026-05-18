@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:43
+FROM registry.fedoraproject.org/fedora-minimal:44
 
 # Install nodejs and deps
 RUN set -x \
